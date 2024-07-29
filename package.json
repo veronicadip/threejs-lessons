@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "npx vite",
+    "build": "npx vite build"
+  },
+  "dependencies": {
+    "three": "^0.167.0"
+  },
+  "devDependencies": {
+    "vite": "^5.3.5"
+  }
+}
