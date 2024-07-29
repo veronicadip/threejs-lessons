@@ -1,3 +1,4 @@
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 
@@ -11,24 +12,21 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
-camera.position.set(0, 0, 100);
+camera.position.set(0, 0, 5);
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
-const material = new THREE.LineBasicMaterial({color: 0x0000ff});
+// load glTF files
+const loader = new GLTFLoader();
 
-const points = [];
-// left
-points.push(new THREE.Vector3(-10, 0, 0 ));
-// up
-points.push(new THREE.Vector3(0, 10, 0));
-// right
-points.push(new THREE.Vector3(10, 0, 0));
+loader.load("/glTFs/weather/source/weather.glb", function (gltf) {
+    scene.add(gltf.scene);
+    renderer.render(scene, camera);
+}, function ( xhr ) {
 
-const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
-const line = new THREE.Line(geometry, material);
-
-scene.add(line);
-renderer.render(scene, camera);
+}, function (error) {
+    console.error(error);
+});
